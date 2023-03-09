@@ -10,15 +10,12 @@
 
 @using (Html.BeginForm())
 {
-  @Html.HiddenFor(model => model.ReviewId)
+    @Html.HiddenFor(model => model.ReviewId)
 
-  @Html.LabelFor(model => model.Rating)
-  @Html.EditorFor(model => model.Rating)
+    @Html.LabelFor(model => model.Rating)
+    @Html.EditorFor(model => model.Rating)
 
-  @Html.LabelFor(model => model.Restaurant)
-  @Html.DropDownList("RestaurantId")
-
-  <input type="submit" value="Save" />
+    <input type="submit" value="Save" />
 }
 
-<p>@Html.ActionLink("Back to list of reviews", "Index")</p>
+<p>@Html.ActionLink("Back to list", "Index")</p>

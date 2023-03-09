@@ -13,7 +13,6 @@ namespace BestRestaurant.Models
     public int CuisineId { get; set; }
     public Cuisine Cuisine { get; set; }
 
-    public List<Review> Reviews { get; set; }
-
+    public List<RestaurantReview> JoinEntities { get;}
   }
 }

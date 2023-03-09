@@ -15,12 +15,26 @@
 } 
 else
 {
-  <h3>Restaurants:</h3>
+  <h3>Restaurants the Cuisine Contains:</h3>
   <ul>
-    @foreach (Restaurant restaurant in Model.Restaurants)
+  @foreach(Restaurant restaurant in Model.Restaurants)
+  {
+    string reviews = "";
+    @if(restaurant.JoinEntities.Count == 0)
     {
-      <li>@Html.ActionLink($"{restaurant.Name}", "Details", "Restaurants", new { id = restaurant.RestaurantId })</li>
+      reviews = "This restaurant does not have any reviews.";
     }
+    else
+    {
+      List<string> reviewList = new List<string>();
+      @foreach(RestaurantReview join in restaurant.JoinEntities)
+      {
+        reviewList.Add(join.Review.Rating);
+      }
+      reviews = String.Join(", ", reviewList);
+    }
+    <li>@restaurant.Name | Reviews: @reviews</li>
+  }
   </ul>
 }
 <p>@Html.ActionLink("Add new restaurant", "Create", "Restaurants")</p>

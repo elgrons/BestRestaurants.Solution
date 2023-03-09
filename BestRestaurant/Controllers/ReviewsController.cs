@@ -18,65 +18,87 @@ namespace BestRestaurant.Controllers
 
     public ActionResult Index()
     {
-      List<Review> model = _db.Reviews.Include(review => review.Restaurant).ToList(); 
-      ViewBag.PageTitle = "What is this?!?";
-      return View(model);
+      return View(_db.Reviews.ToList());
+    }
+  public ActionResult Details(int id)
+    {
+      Review thisReview = _db.Reviews
+          .Include(review => review.JoinEntities)
+          .ThenInclude(join => join.Restaurant)
+          .FirstOrDefault(review => review.ReviewId == id);
+      return View(thisReview);
     }
 
     public ActionResult Create()
     {
-      ViewBag.RestaurantId = new SelectList(_db.Restaurants, "RestaurantId", "Name");
       return View();
     }
 
     [HttpPost]
     public ActionResult Create(Review review)
     {
-      if (review.RestaurantId == 0)
-      {
-        return RedirectToAction("Create");
-      }
       _db.Reviews.Add(review);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
 
-    public ActionResult Details(int id)
+    public ActionResult AddRestaurant(int id)
     {
-      Review thisReview = _db.Reviews
-                          .Include(review => review.Restaurant)
-                          .FirstOrDefault(review => review.ReviewId == id);
+      Review thisReview = _db.Reviews.FirstOrDefault(reviews => reviews.ReviewId == id);
+      ViewBag.RestaurantId = new SelectList(_db.Restaurants, "RestaurantId", "Name");
       return View(thisReview);
+    }
+
+    [HttpPost]
+    public ActionResult AddRestaurant(Review review, int restaurantId)
+    {
+      #nullable enable
+      RestaurantReview? joinEntity = _db.RestaurantReviews.FirstOrDefault(join => (join.RestaurantId == restaurantId && join.ReviewId == review.ReviewId));
+      #nullable disable
+      if (joinEntity == null && restaurantId != 0)
+      {
+        _db.RestaurantReviews.Add(new RestaurantReview() { RestaurantId = restaurantId, ReviewId = review.ReviewId });
+        _db.SaveChanges();
+      }
+      return RedirectToAction("Details", new { id = review.ReviewId });
     }
 
     public ActionResult Edit(int id)
     {
-      Review thisReview = _db.Reviews.FirstOrDefault(review => review.ReviewId == id);
-      ViewBag.RestaurantId = new SelectList(_db.Restaurants, "RestaurantId", "Name");
+      Review thisReview = _db.Reviews.FirstOrDefault(reviews => reviews.ReviewId == id);
       return View(thisReview);
     }
 
     [HttpPost]
     public ActionResult Edit(Review review)
     {
-        _db.Reviews.Update(review);
-        _db.SaveChanges();
-        return RedirectToAction("Index");
+      _db.Reviews.Update(review);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
     }
 
     public ActionResult Delete(int id)
     {
-        Review thisReview = _db.Reviews.FirstOrDefault(review => review.ReviewId == id);
-        return View(thisReview);
+      Review thisReview = _db.Reviews.FirstOrDefault(reviews => reviews.ReviewId == id);
+      return View(thisReview);
     }
 
     [HttpPost, ActionName("Delete")]
     public ActionResult DeleteConfirmed(int id)
     {
-        Review thisReview = _db.Reviews.FirstOrDefault(review => review.ReviewId == id);
-        _db.Reviews.Remove(thisReview);
-        _db.SaveChanges();
-        return RedirectToAction("Index");
+      Review thisReview = _db.Reviews.FirstOrDefault(reviews => reviews.ReviewId == id);
+      _db.Reviews.Remove(thisReview);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    public ActionResult DeleteJoin(int joinId)
+    {
+      RestaurantReview joinEntry = _db.RestaurantReviews.FirstOrDefault(entry => entry.RestaurantReviewId == joinId);
+      _db.RestaurantReviews.Remove(joinEntry);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
     }
   }
 }

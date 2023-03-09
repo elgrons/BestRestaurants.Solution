@@ -37,8 +37,10 @@ namespace BestRestaurant.Controllers
     public ActionResult Details(int id)
     {
       Cuisine thisCuisine = _db.Cuisines
-                                  .Include(cuisine => cuisine.Restaurants)
-                                  .FirstOrDefault(cuisine => cuisine.CuisineId == id);
+                                .Include(thai => thai.Restaurants)
+                                .ThenInclude(restaurant => restaurant.JoinEntities)
+                                .ThenInclude(join => join.Review)
+                                .FirstOrDefault(cuisine => cuisine.CuisineId == id);
       return View(thisCuisine);
     }
 

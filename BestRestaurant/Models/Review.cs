@@ -12,9 +12,11 @@ namespace BestRestaurant.Models
 
     public DateTime Date { get; set; }
 
-    public int RestaurantId { get; set; }
+    public string Restaurant { get; set; }
 
-    public Restaurant Restaurant { get; set; }
+    public string RestaurantId { get; set; }
+
+  public List<RestaurantReview> JoinEntities { get;}
 
   }
 }
