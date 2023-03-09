@@ -6,21 +6,24 @@
 
 <p><strong>NOTE:</strong> You need to have at least one cuisine before you can add a restaurant!</p>
 <p>Go to @Html.ActionLink("this page", "Create", "Cuisines") to create a cuisine.</p>
+
 <h4>Add a new restaurant</h4>
 
 @using (Html.BeginForm())
 {
   @Html.LabelFor(model => model.Name)
   @Html.TextBoxFor(model => model.Name)
+
   @Html.LabelFor(model => model.Description)
   @Html.TextBoxFor(model => model.Description)
-<p>@Html.ActionLink("Add new category", "Create")</p>
-<p>@Html.ActionLink("Add new Item", "Create", "Items")</p>
-<p>@Html.ActionLink("Home", "Index", "Home")</p>
+
   @Html.LabelFor(model => model.Cuisine)
   @Html.DropDownList("CuisineId")
 
-  <input type="submit" value="Add new restaurant" class="btn btn-primary"/>
+  <input type="submit" value="Add" class="btn btn-primary"/>
 }
+@* <p>@Html.ActionLink("Did you forget to add the cuisine first? Add a new cuisine here", "Create", "Cuisines")</p> *@
+
 <p>@Html.ActionLink("Show all restaurants", "Index")</p>
+
 <p>@Html.ActionLink("Home", "Index", "Home")</p>
