@@ -12,6 +12,8 @@
 
 <h3>@Html.DisplayNameFor(model => model.Cuisine): @Html.DisplayFor(model => model.Cuisine.CuisineType)<h3>
 
+<p>@Html.ActionLink("Add a restaurant review", "Create", "Reviews")</p>
+
 <p>@Html.ActionLink("Edit Restaurant", "Edit", new { id = Model.RestaurantId })</p>
 
 <p>@Html.ActionLink("Delete Restaurant", "Delete", new { id = Model.RestaurantId })</p>

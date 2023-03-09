@@ -9,7 +9,7 @@ namespace BestRestaurant.Models
 
     public string RestaurantName { get; set; }
 
-    public string CuisineType { get; set; }
+    public string CuisineType { get; set; } =null!;
 
     public List<Restaurant> Restaurants { get; set; }
 
