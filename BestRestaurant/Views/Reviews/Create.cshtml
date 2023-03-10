@@ -4,16 +4,18 @@
 
 @model BestRestaurant.Models.Review
 
-<h4>Add a new review</h4>
+<p><strong>NOTE:</strong> You need to have at least one restaurant before you can add a review!</p>
+<p>Go to @Html.ActionLink("this page", "Create", "Restaurants") to create a restaurant.</p>
+<h4>Add a new item</h4>
 
 @using (Html.BeginForm())
 {
-    @Html.LabelFor(model => model.Rating)
-    @Html.TextBoxFor(model => model.Rating)
+  @Html.LabelFor(model => model.Rating)
+  @Html.TextBoxFor(model => model.Rating)
 
-    @Html.LabelFor(model => model.Restaurant)
-    @Html.DropDownList("RestaurantId")
+  @Html.LabelFor(model => model.Restaurant)
+  @Html.DropDownList("RestaurantId")
 
-    <input type="submit" value="Add Review" class="btn btn-primary" />
+  <input type="submit" value="Add new review" class="btn btn-primary" />
 }
 <p>@Html.ActionLink("Show all reviews", "Index")</p>
